@@ -1,4 +1,4 @@
-const useUpload = ({ file, setFile, setPlayList, setLoading }) => {
+const useUpload = ({ fileRef, file, setFile, setPlayList, setLoading }) => {
   const handleUpload = async () => {
     try {
       if (!file) {
@@ -20,15 +20,17 @@ const useUpload = ({ file, setFile, setPlayList, setLoading }) => {
 
       const data = await res.json();
 
-      const { id, url } = data;
-
       if (!res.ok) {
         console.log(res.status);
+        alert("Upload failed. Please try again.");
+        setLoading(false);
         return;
       }
+      const { _id, url } = data;
 
-      setPlayList((playList) => [...playList, { id, url }]);
+      setPlayList((playList) => [...playList, { _id, url }]);
       setFile(null);
+      fileRef.current.value = "";
       setLoading(false);
     } catch (error) {
       console.log(error);

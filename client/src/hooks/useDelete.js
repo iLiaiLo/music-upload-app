@@ -11,7 +11,7 @@ const useDelete = ({ playList, setPlayList }) => {
         return;
       }
 
-      const updatedList = playList.filter((melody) => melody.id !== id);
+      const updatedList = playList.filter((melody) => melody._id !== id);
       setPlayList(updatedList);
     } catch (error) {
       console.log(error);
