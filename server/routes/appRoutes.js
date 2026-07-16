@@ -1,6 +1,6 @@
 import express from "express";
 import getPlaylist from "../controllers/getPlayList.js";
-import uploadMusic from "../utils/uploadMusic.js";
+import uploadMusic from "../middlewares/uploadMusic.js";
 import addToPlayList from "../controllers/addToPlayList.js";
 import removeFromPlayList from "../controllers/removeFromPlayList.js";
 
