@@ -1,26 +1,29 @@
 import Musics from "../models/musicModel.js";
-
-const addToPlayList = async (req, res) => {
+import AppError from "../errorHandlers/appError.js";
+const addToPlayList = async (req, res, next) => {
   try {
-    const id = crypto.randomUUID();
-
     if (!req.file) {
-      return res.status(400).json({ error: "No file uploaded" });
+      const error = new AppError("No file uploaded", 400);
+      return next(error);
     }
     const { filename, mimetype } = req.file;
     if (mimetype !== "audio/mpeg") {
-      return res
-        .status(400)
-        .json({ error: "file type must be audio/mpeg (MP3)" });
+      const error = new AppError("file type must be audio/mpeg (MP3)", 400);
+      return next(error);
     }
 
     const dest = process.env.AUDIO_DEST;
     const url = dest + filename;
 
-    await Musics.create({ id, url });
-    return res.status(201).json({ id, url });
+    const newMusic = await Musics.create({ url });
+    const { _id } = newMusic;
+    return res.status(201).json({
+      message: "new music successfully added to playlist",
+      _id,
+      url,
+    });
   } catch (error) {
-    return res.status(500).json({ error });
+    next(error);
   }
 };
 
