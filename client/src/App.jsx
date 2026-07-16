@@ -1,19 +1,19 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./App.css";
-import { useEffect } from "react";
 import useUpload from "./hooks/useUpload";
 import Music from "./components/Music";
 import useDelete from "./hooks/useDelete";
 
+const VITE_URL = import.meta.env.VITE_URL;
 function App() {
   const [file, setFile] = useState(null);
+  const fileRef = useRef(null);
   const [playList, setPlayList] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const VITE_URL = import.meta.env.VITE_URL;
         const res = await fetch(VITE_URL);
         const data = await res.json();
         setPlayList(data);
@@ -27,6 +27,7 @@ function App() {
   const { handleUpload } = useUpload({
     file,
     setFile,
+    fileRef,
     setPlayList,
     setLoading,
   });
@@ -44,6 +45,7 @@ function App() {
       >
         <div>
           <input
+            ref={fileRef}
             type="file"
             onChange={(e) => setFile(e.target.files[0])}
             accept="audio/*"
@@ -56,9 +58,9 @@ function App() {
               {playList.map((audio) => {
                 return (
                   <Music
-                    key={audio.id}
+                    key={audio._id}
                     handleDelete={handleDelete}
-                    id={audio.id}
+                    id={audio._id}
                     url={audio.url}
                   />
                 );
