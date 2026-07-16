@@ -54,15 +54,15 @@ Before running the app, make sure you have:
 The server uses a `.env` file in the `server/` folder with values similar to:
 
 ```env
-PORT=4000
-MONGO_URI=mongodb://127.0.0.1:27017/musics
-AUDIO_DEST=http://localhost:4000/public/
+PORT=port where server is running
+MONGO_URI=db connection string
+AUDIO_DEST=folder where musics are uploaded (server/folder_name)
 ```
 
 The client uses a `.env` file in the `client/` folder:
 
 ```env
-VITE_URL="http://localhost:4000/api/playlist"
+VITE_URL=API url for connection of backend and frontend
 ```
 
 ## Installation
